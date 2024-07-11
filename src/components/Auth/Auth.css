@@ -1,0 +1,78 @@
+/* Genel stil ayarları */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 500px; /* Genişliği artır */
+    margin: 0 auto; /* Sayfa içeriğini ortala */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: #f44336;
+    background-color: #ffebee;
+    padding: 10px;
+    border: 1px solid #f44336;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.success-message {
+    color: #4CAF50;
+    background-color: #e8f5e9;
+    padding: 10px;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Mobil cihazlar için duyarlı tasarım */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 20px;
+    }
+
+    input, button {
+        width: 100%;
+        font-size: 14px;
+    }
+}
