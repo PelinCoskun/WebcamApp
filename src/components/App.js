@@ -5,6 +5,7 @@ import '../assets/styles/App.css';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import VideoStream from './PhotoCapture/VideoStream';
+import NewPasswordScreen from './resetPassword/NewPasswordScreen';
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +33,7 @@ const App = () => {
                 <Routes>
                     <Route path="/login" element={<Login onLogin={handleLogin} onRegisterClick={() => setIsRegistering(true)} />} />
                     <Route path="/register" element={<Register onRegister={handleRegister} onLogin={() => setIsRegistering(false)} />} />
+                    <Route path="/new-password" element={<NewPasswordScreen />} />
                     <Route path="/video-stream" element={<VideoStream />} />
                     <Route path="/" element={
                         isAuthenticated ? (

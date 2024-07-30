@@ -12,10 +12,19 @@ const Register = ({ onRegister }) => {
     const navigate = useNavigate();
 
     const handleRegister = async () => {
+        // Regular expression for email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         try {
-            // Simple client-side validation
+            // Client-side validation
             if (!name || !email || !password) {
                 setError('Lütfen tüm alanları doldurun.');
+                clearFeedback();
+                return;
+            }
+
+            if (!emailRegex.test(email)) {
+                setError('Geçerli bir email adresi giriniz.');
                 clearFeedback();
                 return;
             }
@@ -46,6 +55,8 @@ const Register = ({ onRegister }) => {
             console.error('Register error:', error);
             if (error.response && error.response.data.message === 'Kullanıcı zaten var') {
                 setError('Kullanıcı zaten var');
+            } else if (error.response && error.response.data.message) {
+                setError(error.response.data.message);
             } else {
                 setError('Kayıt sırasında bir hata oluştu.');
             }

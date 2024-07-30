@@ -1,42 +1,36 @@
 import axios from 'axios';
+import DOMPurify from 'dompurify'; // XSS koruması için DOMPurify kullanımı
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Login = ({ onLogin, onRegisterClick }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Initialize navigate for navigation
+    const navigate = useNavigate();
 
     const handleLogin = () => {
-        
-        console.log('Giriş denemesi başlatılıyor...');
         if (!email || !password) {
             setError('Lütfen tüm alanları doldurun.');
-            setTimeout(()=>{
+            setTimeout(() => {
                 setError('');
-            },2000)
+            }, 2000);
             return;
         }
-        axios.post('http://localhost:5000/login', { email, password })
-            .then(response => {
-                // Başarılı giriş işlemi
-                console.log('Giriş başarılı, response:', response.data);
-                const { user } = response.data;
-                onLogin(user); // onLogin fonksiyonu çağrılarak giriş başarılı şekilde gerçekleştiriliyor
-                // Navigate to VideoStream page
-                navigate('/video-stream');
 
-                setTimeout(()=>{
-                    setError('');
-                },2000)
+        // Kullanıcı girişlerini temizle
+        const sanitizedEmail = DOMPurify.sanitize(email);
+        const sanitizedPassword = DOMPurify.sanitize(password);
+
+        axios.post('http://localhost:5000/login', { email: sanitizedEmail, password: sanitizedPassword })
+            .then(response => {
+                const { user } = response.data;
+                onLogin(user); 
+                navigate('/video-stream');
             })
             .catch(error => {
-                // Hata durumu
-                console.error('Login error:', error);
-                setError(error.response ? error.response.data.message : error.message);
-
+                setError('Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin ve tekrar deneyin.');
                 setTimeout(() => {
                     setError('');
                 }, 2000);
@@ -44,10 +38,14 @@ const Login = ({ onLogin, onRegisterClick }) => {
     };
 
     const handleRegisterClick = () => {
-        navigate('/register'); // Navigate to '/register' path
+        navigate('/register'); 
         if (typeof onRegisterClick === 'function') {
-            onRegisterClick(); // Call onRegisterClick function if it's a function
+            onRegisterClick(); 
         }
+    };
+
+    const handleForgotPasswordClick = () => {
+        navigate('/new-password'); // Navigate to NewPasswordScreen
     };
 
     return (
@@ -58,16 +56,21 @@ const Login = ({ onLogin, onRegisterClick }) => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off" // Otomatik tamamlamayı kapat
             />
             <input
                 type="password"
                 placeholder="Şifre"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off" // Otomatik tamamlamayı kapat
             />
             {error && <p className="error-message">{error}</p>}
             <button onClick={handleLogin}>Giriş Yap</button>
             <button className="secondary" onClick={handleRegisterClick}>Üye Ol</button>
+            <button className="forgot-password" onClick={handleForgotPasswordClick}>
+                Şifremi Unuttum
+            </button>
         </div>
     );
 };

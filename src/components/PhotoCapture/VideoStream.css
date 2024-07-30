@@ -45,14 +45,14 @@
   width: 150px; /* Adjusted width */
 }
 
-.capture-button:hover {
-  background-color: #6672b8;
-}
-
 .capture-button:focus {
   background-color: none;
 }
 
+.capture-button:disabled {
+  background-color: gray;
+  cursor:not-allowed;
+}
 
 .video-feed {
   width: 100%;

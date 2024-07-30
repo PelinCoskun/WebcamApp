@@ -122,11 +122,11 @@ body {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #203080;
   color: #fff;
   cursor: pointer;
 }
 
 .photo-capture-container button:hover {
-  background-color: #0056b3;
+  background-color: #203080;
 }
